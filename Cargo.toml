@@ -1,0 +1,14 @@
+[package]
+name = "sf"
+version = "0.0.0"
+authors = ["Liu Chong <mail@liuchong.io>"]
+edition = "2018"
+license = "MIT"
+repository = "https://github.com/liuchong/sf"
+homepage = "https://github.com/liuchong/sf"
+description = """
+Simple snowflake like unique IDs generator.
+"""
+keywords = ["flake", "snowflake", "id", "uid", "sf"]
+
+[dependencies]
