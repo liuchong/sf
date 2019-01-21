@@ -1,6 +1,6 @@
 [package]
 name = "sf"
-version = "0.0.0"
+version = "0.0.1"
 authors = ["Liu Chong <mail@liuchong.io>"]
 edition = "2018"
 license = "MIT"
@@ -10,5 +10,10 @@ description = """
 Simple snowflake like unique IDs generator.
 """
 keywords = ["flake", "snowflake", "id", "uid", "sf"]
+
+[package.metadata.x]
+lint = "cargo clippy --verbose --all-targets --all-features -- -D warnings"
+test = "cargo test --verbose --all --release"
+build = "cargo build --verbose --all --release"
 
 [dependencies]
