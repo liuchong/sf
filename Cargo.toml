@@ -1,9 +1,9 @@
 [package]
 name = "sf"
-version = "0.0.1"
+version = "0.1.0"
 authors = ["Liu Chong <mail@liuchong.io>"]
 edition = "2018"
-license = "MIT"
+license = "MIT OR Apache-2.0"
 repository = "https://github.com/liuchong/sf"
 homepage = "https://github.com/liuchong/sf"
 description = """
@@ -12,8 +12,32 @@ Simple snowflake like unique IDs generator.
 keywords = ["flake", "snowflake", "id", "uid", "sf"]
 
 [package.metadata.x]
-lint = "cargo clippy --verbose --all-targets --all-features -- -D warnings"
-test = "cargo test --verbose --all --release"
-build = "cargo build --verbose --all --release"
+lint = "cargo clippy --verbose --all-targets --all-features --all --release -- -D warnings"
+test = "cargo test --verbose --all-targets --all-features --all --release"
+build = "cargo build --verbose --all-targets --all-features --all --release"
 
-[dependencies]
+[features]
+readable = [ "base64" ]
+
+[dependencies.base64]
+default-features = false
+optional = true
+version = "0.10.1"
+
+[dependencies.diesel]
+default-features = false
+optional = true
+version = "1.4.1"
+
+[dependencies.serde]
+default-features = false
+optional = true
+version = "1.0.89"
+
+[[example]]
+name = "ctx"
+required-features = ["readable"]
+
+[[example]]
+name = "id"
+required-features = ["readable"]
