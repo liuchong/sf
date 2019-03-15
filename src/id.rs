@@ -12,6 +12,9 @@ impl Id {
     ///
     /// Panics if ts, wid, seq out of limit.
     pub fn new(ts: u64, wid: u16, seq: u16) -> Self {
+        // general Id should not be nil
+        assert!(ts != 0);
+        // limits
         assert!(ts <= MAX_TS);
         assert!(wid <= MAX_WID);
         assert!(seq <= MAX_SEQ);
@@ -31,12 +34,11 @@ impl Id {
         Id(0)
     }
 
-    /// From_i64 require a positive i64 input, or else it will panic.
-    ///
-    /// # Panics
-    /// Panics if input value is not positive number.
+    /// From_i64 require a positive i64 input, or else returns nil.
     pub fn from_i64(i: i64) -> Self {
-        assert!(i > 0);
+        if i <= 0 {
+            return Id::nil();
+        }
 
         let u = i as u64;
         let ts = u >> TS_SHIFT;
@@ -79,6 +81,10 @@ impl Id {
 
         [b1, b2, b3, b4, b5, b6, b7, b8]
     }
+
+    pub fn is_nil(self) -> bool {
+        self.0 == 0
+    }
 }
 
 impl fmt::LowerHex for Id {
@@ -108,13 +114,13 @@ impl<'a> Into<i64> for &'a Id {
 
 impl Into<Id> for i64 {
     fn into(self) -> Id {
-        Id(self)
+        Id::from_i64(self)
     }
 }
 
 impl<'a> Into<Id> for &'a i64 {
     fn into(self) -> Id {
-        Id(*self)
+        Id::from_i64(*self)
     }
 }
 
@@ -144,7 +150,14 @@ mod tests {
 
     #[test]
     fn test_id_from_i64_success() {
-        let i = 123;
+        // general success
+        let i = 18_427_598_719_680_512;
+        let id = Id::from_i64(i);
+
+        assert_eq!(i, id.into());
+
+        // nil success
+        let i = 0;
         let id = Id::from_i64(i);
 
         assert_eq!(i, id.into());
@@ -153,7 +166,23 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_id_from_i64_fail() {
+        // timestamp is zero
+        let i = 1;
+        let _ = Id::from_i64(i);
+    }
+
+    #[test]
+    fn test_id_from_i64_nil() {
+        // negative number returns nil
         let i: i64 = -1;
-        let _id = Id::from_i64(i);
+        let id = Id::from_i64(i);
+
+        assert!(id.is_nil());
+
+        // 0 returns nil
+        let i: i64 = 0;
+        let id = Id::from_i64(i);
+
+        assert!(id.is_nil());
     }
 }

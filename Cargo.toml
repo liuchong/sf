@@ -1,6 +1,6 @@
 [package]
 name = "sf"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Liu Chong <mail@liuchong.io>"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
@@ -16,9 +16,6 @@ lint = "cargo clippy --verbose --all-targets --all-features --all --release -- -
 test = "cargo test --verbose --all-targets --all-features --all --release"
 build = "cargo build --verbose --all-targets --all-features --all --release"
 
-[features]
-readable = [ "base64" ]
-
 [dependencies.base64]
 default-features = false
 optional = true
@@ -33,6 +30,11 @@ version = "1.4.1"
 default-features = false
 optional = true
 version = "1.0.89"
+
+[features]
+readable = ["base64"]
+extras = ["readable", "diesel", "serde"]
+serializable = ["readable", "serde"]
 
 [[example]]
 name = "ctx"

@@ -23,6 +23,15 @@ impl Context {
             return Err(format!("bad epoch {}", epoch));
         }
 
+        // Make sure timestamp of Id is now 0 and so Id must be not nil.
+        if now == epoch {
+            loop {
+                if ms_since_epoch()? != epoch {
+                    break;
+                }
+            }
+        }
+
         Ok(Context {
             epoch,
             worker_id,
@@ -69,7 +78,25 @@ mod tests {
     use super::Context;
 
     #[test]
-    fn test_generate_id() {
+    fn test_create_context_fail() {
+        let context = Context::new(!0, 0);
+
+        assert!(context.is_err());
+    }
+
+    #[test]
+    fn test_create_context_success() {
+        let context = Context::new(1_234_567_891_011, 0);
+
+        assert!(context.is_ok());
+
+        let context = Context::new(0, 0);
+
+        assert!(context.is_ok());
+    }
+
+    #[test]
+    fn test_generate_id_success() {
         let context = Context::new(1_548_067_209_841, 0).unwrap();
         let id = context.next_id();
 
