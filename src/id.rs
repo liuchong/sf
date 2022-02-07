@@ -1,4 +1,4 @@
-use super::defs::{MAX_SEQ, MAX_TS, MAX_WID, TS_SHIFT, WID_SHIFT};
+use super::consts::{MAX_SEQ, MAX_TS, MAX_WID, TS_SHIFT, WID_SHIFT};
 use crate::errors::Error;
 use std::fmt;
 

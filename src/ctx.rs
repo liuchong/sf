@@ -1,4 +1,4 @@
-use super::defs::MAX_SEQ;
+use super::consts::MAX_SEQ;
 use super::utils::ms_since_epoch;
 use super::Id;
 use std::sync::{Arc, Mutex};
