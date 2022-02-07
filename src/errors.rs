@@ -18,7 +18,7 @@ impl StdError for Error {
         "Shit!"
     }
 
-    fn cause(&self) -> Option<&StdError> {
+    fn cause(&self) -> Option<&dyn StdError> {
         None
     }
 }

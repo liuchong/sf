@@ -16,7 +16,7 @@ impl FromStr for Id {
 
     fn from_str(s: &str) -> Result<Self, Error> {
         match decode_config(s, URL_SAFE_NO_PAD) {
-            Ok(ref bytes) => Id::from_slice(&bytes),
+            Ok(ref bytes) => Id::from_slice(bytes),
             _ => Err(Error::ParseError),
         }
     }

@@ -100,27 +100,27 @@ impl fmt::UpperHex for Id {
     }
 }
 
-impl Into<i64> for Id {
-    fn into(self) -> i64 {
-        self.0
+impl From<i64> for Id {
+    fn from(i: i64) -> Self {
+        Id::from_i64(i)
     }
 }
 
-impl<'a> Into<i64> for &'a Id {
-    fn into(self) -> i64 {
-        self.0
+impl From<Id> for i64 {
+    fn from(id: Id) -> Self {
+        id.0
     }
 }
 
-impl Into<Id> for i64 {
-    fn into(self) -> Id {
-        Id::from_i64(self)
+impl From<&i64> for Id {
+    fn from(i: &i64) -> Self {
+        Id::from_i64(*i)
     }
 }
 
-impl<'a> Into<Id> for &'a i64 {
-    fn into(self) -> Id {
-        Id::from_i64(*self)
+impl From<&Id> for i64 {
+    fn from(id: &Id) -> Self {
+        id.0
     }
 }
 

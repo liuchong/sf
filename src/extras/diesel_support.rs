@@ -7,7 +7,7 @@ use diesel::sql_types::{BigInt, Nullable};
 use std::error::Error;
 use std::io::Write;
 
-type DieselError = Box<Error + Send + Sync>;
+type DieselError = Box<dyn Error + Send + Sync>;
 
 #[derive(FromSqlRow, SqlType)]
 #[diesel(foreign_derive)]
@@ -48,8 +48,7 @@ impl<'a> AsExpression<Nullable<BigInt>> for &'a Id {
 
 impl<DB: Backend<RawValue = [u8]>> FromSql<BigInt, DB> for Id {
     fn from_sql(bytes: Option<&[u8]>) -> Result<Self, DieselError> {
-        <i64 as FromSql<_, DB>>::from_sql(bytes)
-            .and_then(|i| Ok(Into::<Id>::into(i)))
+        <i64 as FromSql<_, DB>>::from_sql(bytes).map(Into::<Id>::into)
     }
 }
 
